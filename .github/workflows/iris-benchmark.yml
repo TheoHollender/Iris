@@ -1,7 +1,7 @@
 name: Project Iris - Unit Tests
 on: [push]
 jobs:
-  run-iris-tests:
+  run-iris-benchmark:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -9,11 +9,11 @@ jobs:
       - name: Create build directory
         run: mkdir build
       - name: Configure Project
-        run: cmake -D IRIS_TESTING=ON ..
+        run: cmake -D CMAKE_BUILD_TYPE=Release -D IRIS_BENCHMARK=ON ..
         working-directory: build
       - name: Build Project
         run: cmake --build .
         working-directory: build
       - name: Run tests
-        run: ctest
+        run: ctest --verbose
         working-directory: build

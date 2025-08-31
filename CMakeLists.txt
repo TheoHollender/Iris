@@ -4,7 +4,8 @@ project(IrisRegistry CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-enable_testing()
+option(IRIS_TESTING OFF)
+option(IRIS_BENCHMARK OFF)
 
 add_library(iris)
 target_sources(
@@ -12,5 +13,12 @@ target_sources(
         src/iris/core/init.cpp)
 target_include_directories(iris PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-add_subdirectory(tests)
-add_subdirectory(benchmarks)
+enable_testing()
+
+if (IRIS_TESTING)
+    add_subdirectory(tests)
+endif()
+
+if (IRIS_BENCHMARK)
+    add_subdirectory(benchmarks)
+endif()
