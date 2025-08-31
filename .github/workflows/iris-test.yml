@@ -1,0 +1,19 @@
+name: Project Iris - Unit Tests
+on: [push]
+jobs:
+  run-iris-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Create build directory
+        run: mkdir build
+      - name: Configure Project
+        run: cmake ..
+        working-directory: build
+      - name: Build Project
+        run: cmake --build .
+        working-directory: build
+      - name: Run tests
+        run: ctest
+        working-directory: build
