@@ -28,15 +28,24 @@
 namespace iris::core {
 
     template<typename KeyType, typename IntType>
+    void do_nothing (const KeyType &key, int value) {}
+
+    template<typename KeyType, typename IntType>
     struct Registry {
     private:
         std::map<KeyType, IntType> content;
+
+        void (*on_add)(const KeyType&, IntType) = &do_nothing<KeyType, IntType>;
     public:
-        IntType get (KeyType target) {
+        Registry () = default;
+        Registry (void (*on_add)(const KeyType&, IntType)) : on_add(on_add) {}
+
+        IntType get (const KeyType &target) {
             auto it = content.find(target);
             if (it != content.end()) return (*it).second;
         
             IntType result = content[target] = content.size();
+            on_add(target, result);
             return result;
         }
     };
