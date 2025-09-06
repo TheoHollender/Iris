@@ -11,7 +11,8 @@ add_library(iris)
 target_sources(
     iris PRIVATE
         src/iris/core/init.cpp
-        src/iris/logger/format.cpp)
+        src/iris/logger/format.cpp
+        src/iris/storage/argscheme.cpp)
 target_include_directories(iris PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 enable_testing()

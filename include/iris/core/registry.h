@@ -23,6 +23,7 @@
  * SOFTWARE.
  */
 
+#pragma once
 #include <map>
 #include <functional>
 
@@ -49,16 +50,6 @@ namespace iris::core {
             IntType result = content[target] = content.size();
             on_add(target, result);
             return result;
-        }
-    };
-
-    template<typename KeyType, typename IntType>
-    struct RegistryElement {
-    public:
-        IntType content;
-
-        RegistryElement (Registry<KeyType, IntType> &registry, KeyType target) {
-            content = registry.get(target);
         }
     };
 

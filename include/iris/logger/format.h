@@ -23,6 +23,7 @@
  * SOFTWARE.
  */
 
+#pragma once
 #include "iris/storage/strings.h"
 
 namespace iris::logger {
@@ -31,7 +32,8 @@ namespace iris::logger {
      * Definition of the string registry as well as details on where to store formats.
      */
 
-    using FormatRegistry = iris::storage::StringStorageRegistry<uint64_t>;
+    using FormatIntType  = uint32_t;
+    using FormatRegistry = iris::storage::StringStorageRegistry<FormatIntType>;
     extern FormatRegistry format_registry;
 
     #define FORMAT_STORAGE_LOCATION "logs/formats"
@@ -45,9 +47,9 @@ namespace iris::logger {
      *   to predict correctly where the information is stored and this should
      *   be close to O(1).
      */
-    #define IRIS_LOGGER_MAKE_STATIC_FORMAT(format) ([]() {    \
-        static uint64_t element(iris::logger::format_registry.get(format));                \
-        return element.content;                                                 \
+    #define IRIS_LOGGER_MAKE_STATIC_FORMAT(format) ([]() {                   \
+        static uint64_t element(iris::logger::format_registry.get(format));  \
+        return element.content;                                              \
     })()
 
     /**

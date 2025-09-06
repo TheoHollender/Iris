@@ -26,6 +26,8 @@
 #include "gtest/gtest.h"
 #include "iris/logger/format.h"
 
+using namespace iris::logger;
+
 TEST(FormatRegistryTests, TestFormatIds) {
     uint64_t f1 = IRIS_LOGGER_MAKE_FORMAT("Hello: '%1'");
     uint64_t f2 = IRIS_LOGGER_MAKE_FORMAT("Hello: '%2'");
@@ -45,18 +47,24 @@ TEST(FormatRegistryTests, TestWrittenData) {
     EXPECT_STREQ(FORMAT_STORAGE_LOCATION, "logs/formats");
     int fd = iris::fs::rfsPolicy.open("logs/formats");
 
-    uint8_t ptr[8 + 8 + 11 + 8 + 8 + 8 + 1];
+    uint8_t ptr[
+        sizeof(FormatIntType) + sizeof(size_t) + 11
+      + sizeof(FormatIntType) + sizeof(size_t) + 8 + 1];
     EXPECT_EQ(
-        iris::fs::rfsPolicy.read(fd, ptr, 8 + 8 + 11 + 8 + 8 + 8 + 1),
-        8 + 8 + 11 + 8 + 8 + 8
+        iris::fs::rfsPolicy.read(fd, ptr, 
+            sizeof(FormatIntType) + sizeof(size_t) + 11
+          + sizeof(FormatIntType) + sizeof(size_t) + 8 + 1),
+        sizeof(FormatIntType) + sizeof(size_t) + 11
+      + sizeof(FormatIntType) + sizeof(size_t) + 8
     );
 
-    EXPECT_EQ(*((uint64_t*) (ptr)), 0);
-    EXPECT_EQ(*((uint64_t*) (ptr + 8)), 11);
-    EXPECT_EQ(*((uint64_t*) (ptr + 27)), 1);
-    EXPECT_EQ(*((uint64_t*) (ptr + 35)), 8);
-    ptr[27] = 0;
-    ptr[51] = 0;
-    EXPECT_STREQ(((char*) (ptr + 16)), "Hello: '%1'");
-    EXPECT_STREQ(((char*) (ptr + 43)), "Hi: '%2'");
+    EXPECT_EQ(*((FormatIntType*) (ptr)), 0);
+    EXPECT_EQ(*((size_t*) (ptr + sizeof(FormatIntType))), 11);
+    EXPECT_EQ(*((FormatIntType*) (ptr + sizeof(FormatIntType) + sizeof(size_t) + 11)), 1);
+    EXPECT_EQ(*((size_t*) (ptr + 2 * sizeof(FormatIntType) + sizeof(size_t) + 11)), 8);
+    ptr[sizeof(FormatIntType) + sizeof(size_t) + 11] = 0;
+    ptr[sizeof(FormatIntType) + sizeof(size_t) + 11
+      + sizeof(FormatIntType) + sizeof(size_t) + 8] = 0;
+    EXPECT_STREQ(((char*) (ptr + sizeof(FormatIntType) + sizeof(size_t))), "Hello: '%1'");
+    EXPECT_STREQ(((char*) (ptr + 2 * sizeof(FormatIntType) + 2 * sizeof(size_t) + 11)), "Hi: '%2'");
 }

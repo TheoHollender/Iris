@@ -23,6 +23,7 @@
  * SOFTWARE.
  */
 
+#pragma once
 #include <cstdint>
 #include <string>
 #include <string_view>
@@ -45,9 +46,10 @@ namespace iris::storage {
         iris::core::Registry<std::string, IntType> registry;
 
         std::mutex add_string_mutex;
+        std::mutex init_mutex;
         void on_add (const std::string &buffer, IntType &value) {
             std::lock_guard<std::mutex> guard_add (add_string_mutex);
-            
+
             size_t bf_size = buffer.size();
             iris::fs::wfsPolicy.write(fd, (const uint8_t*) &value, sizeof(IntType));
             iris::fs::wfsPolicy.write(fd, (const uint8_t*) &bf_size, sizeof(size_t));
@@ -55,6 +57,9 @@ namespace iris::storage {
         }
         void init () {
             if (storage_pendint_init) {
+                std::lock_guard<std::mutex> lock_init(init_mutex);
+                if (!storage_pendint_init) return ;
+                
                 fd = iris::fs::wfsPolicy.open(storage_loc);
                 
                 std::function<void(const std::string&, IntType)> on_add_wrapper(

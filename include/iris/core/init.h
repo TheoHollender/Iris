@@ -23,6 +23,8 @@
  * SOFTWARE.
  */
 
+#pragma once
+
 namespace iris::core {
     void init ();
 }

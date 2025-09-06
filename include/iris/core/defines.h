@@ -50,6 +50,7 @@
  * automatically enabled.
  */
 
+#pragma once
 #ifdef IRIS_DISABLE
 #undef IRIS_DEBUG
 #undef IRIS_CLI
