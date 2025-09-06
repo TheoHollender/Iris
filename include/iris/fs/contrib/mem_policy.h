@@ -64,7 +64,7 @@ namespace iris::fs::memory {
             uint32_t total_size     = 0;
             uint32_t total_capacity = 0;
         public:
-            void     write (uint8_t* ptr, uint32_t size);
+            void     write (const uint8_t* ptr, uint32_t size);
             uint32_t read  (uint8_t* ptr, uint32_t size, InMemoryLocation &location);
         };
 
@@ -85,7 +85,7 @@ namespace iris::fs::memory {
             uint32_t open_write (const std::string &path);
             uint32_t open_read  (const std::string &path);
 
-            void     write (uint32_t fd, uint8_t* ptr, uint32_t size);
+            void     write (uint32_t fd, const uint8_t* ptr, uint32_t size);
             uint32_t read  (uint32_t fd, uint8_t* ptr, uint32_t size);
         };
 

@@ -40,7 +40,7 @@ namespace iris::fs {
     struct WriteFileSystemPolicy {
     public:
         uint32_t open  (std::string path);
-        void     write (uint32_t fd, uint8_t* ptr, uint32_t size);
+        void     write (uint32_t fd, const uint8_t* ptr, uint32_t size);
     
         void flush (uint32_t fd);
         void flush_all ();

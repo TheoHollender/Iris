@@ -24,21 +24,23 @@
  */
 
 #include <map>
+#include <functional>
 
 namespace iris::core {
 
     template<typename KeyType, typename IntType>
-    void do_nothing (const KeyType &key, int value) {}
+    void do_nothing (const KeyType &key, IntType value) {}
 
     template<typename KeyType, typename IntType>
     struct Registry {
     private:
         std::map<KeyType, IntType> content;
 
-        void (*on_add)(const KeyType&, IntType) = &do_nothing<KeyType, IntType>;
+        std::function<void(const KeyType&, IntType)> on_add;
     public:
-        Registry () = default;
+        Registry () : on_add(&do_nothing<KeyType, IntType>) {};
         Registry (void (*on_add)(const KeyType&, IntType)) : on_add(on_add) {}
+        Registry (std::function<void(const KeyType&, IntType)> on_add) : on_add(on_add) {}
 
         IntType get (const KeyType &target) {
             auto it = content.find(target);
@@ -72,8 +74,8 @@ namespace iris::core {
  *   be close to O(1).
  */
 #define IRIS_USE_STATIC_FROM_REGISTRY(registry, target) ([](auto &reg) {    \
-    static iris::core::RegistryElement element(reg, target);                \
-    return element.content;                                                 \
+    static auto element(reg.get(target));                                   \
+    return element;                                                         \
 })(registry)
 
 /**

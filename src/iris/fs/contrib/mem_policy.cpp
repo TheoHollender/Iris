@@ -69,7 +69,10 @@ uint32_t _internal::InMemoryBuffer::read (uint8_t *ptr, uint32_t size, _internal
         uint32_t page_id  = location.offset >> IRIS_FS_MEM_PAGE_BITSIZE;
         uint32_t page_off = location.offset &  IRIS_FS_MEM_OFFSET_MASK;
 
-        uint32_t page_rem = std::min(size, pages[page_id].size - page_off);
+        uint32_t page_rem = std::min(
+            std::min(size, pages[page_id].size - page_off),
+            total_size - location.offset
+        );
         memcpy(ptr, pages[page_id].ptr + page_off, page_rem);
         
         ptr += page_rem;
@@ -81,7 +84,7 @@ uint32_t _internal::InMemoryBuffer::read (uint8_t *ptr, uint32_t size, _internal
     return total_read;
 }
 
-void _internal::InMemoryBuffer::write (uint8_t *ptr, uint32_t size) {
+void _internal::InMemoryBuffer::write (const uint8_t *ptr, uint32_t size) {
     while (size > 0) {
         if (total_capacity == total_size) {
             total_capacity += IRIS_FS_MEM_PAGE_SIZE;
@@ -137,7 +140,7 @@ uint32_t _internal::InMemoryStorage::open_read  (const std::string &path) {
     return read_locations.size() - 1;
 }
 
-void _internal::InMemoryStorage::write (uint32_t fd, uint8_t* ptr, uint32_t size) {
+void _internal::InMemoryStorage::write (uint32_t fd, const uint8_t* ptr, uint32_t size) {
     return buffers[fd].write(ptr, size);
 }
 uint32_t _internal::InMemoryStorage::read  (uint32_t fd, uint8_t* ptr, uint32_t size) {
@@ -163,10 +166,9 @@ _internal::InMemoryStorage _internal::mem_storage;
 
 uint32_t WriteFileSystemPolicy::open (std::string path) {
     IRIS_FS_MEM_WARNING();
-    
     return _internal::mem_storage.open_write(path);
 }
-void WriteFileSystemPolicy::write (uint32_t fd, uint8_t* ptr, uint32_t size) {
+void WriteFileSystemPolicy::write (uint32_t fd, const uint8_t* ptr, uint32_t size) {
     IRIS_FS_MEM_WARNING();
 
     return _internal::mem_storage.write(fd, ptr, size);

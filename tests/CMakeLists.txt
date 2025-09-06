@@ -12,6 +12,10 @@ target_link_libraries(registry_tests PRIVATE iris gtest_main)
 add_executable(mem_policy_tests iris/fs/contrib/mem_policy_tests.cpp)
 target_link_libraries(mem_policy_tests PRIVATE iris_testing gtest_main)
 
+add_executable(format_tests iris/logger/format_tests.cpp)
+target_link_libraries(format_tests PRIVATE iris_testing gtest_main)
+
 include(GoogleTest)
 gtest_discover_tests(registry_tests)
 gtest_discover_tests(mem_policy_tests)
+gtest_discover_tests(format_tests)
