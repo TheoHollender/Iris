@@ -40,7 +40,7 @@ namespace iris::core {
         std::function<void(const KeyType&, IntType)> on_add;
     public:
         Registry () : on_add(&do_nothing<KeyType, IntType>) {};
-        Registry (void (*on_add)(const KeyType&, IntType)) : on_add(on_add) {}
+        Registry (void (*on_add)(const KeyType&, IntType)) : on_add(on_add) {} // LCOV_EXCL_LINE
         Registry (std::function<void(const KeyType&, IntType)> on_add) : on_add(on_add) {}
 
         IntType get (const KeyType &target) {

@@ -109,6 +109,7 @@ _internal::InMemoryPage::InMemoryPage () {
     ptr  = (uint8_t*) malloc( IRIS_FS_MEM_PAGE_SIZE );
 
     if (ptr == NULL) {
+        // LCOV_EXCL_START
         std::cout << "[iris/fs/memory] OUT_OF_MEMORY error of the iris::fs::memory policy. \n";
         std::cout << "  This error message occurs as you system does not have enough memory to store\n";
         std::cout << "  all your logs / traces / metrics in memory. Since this is a virtual file system\n";
@@ -124,6 +125,7 @@ _internal::InMemoryPage::InMemoryPage () {
         #endif
 
         exit(1);
+        // LCOV_EXCL_STOP
     }
 }
 
@@ -156,7 +158,9 @@ void _internal::InMemoryStorage::add_buffer (uint32_t fd) {
 void _internal::create_in_memory_buffer (const std::string &path, uint32_t fd) {
     _internal::mem_storage.add_buffer(fd);
 }
+// LCOV_EXCL_START
 _internal::InMemoryStorage::InMemoryStorage () {}
+// LCOV_EXCL_STOP
 
 _internal::InMemoryStorage _internal::mem_storage;
 
@@ -173,12 +177,14 @@ void WriteFileSystemPolicy::write (uint32_t fd, const uint8_t* ptr, uint32_t siz
 
     return _internal::mem_storage.write(fd, ptr, size);
 }
+// LCOV_EXCL_START
 void WriteFileSystemPolicy::flush (uint32_t fd) {
     IRIS_FS_MEM_WARNING();
 }
 void WriteFileSystemPolicy::flush_all () {
     IRIS_FS_MEM_WARNING();
 }
+// LCOV_EXCL_STOP
 
 uint32_t ReadFileSystemPolicy::open (std::string path) {
     IRIS_FS_MEM_WARNING();

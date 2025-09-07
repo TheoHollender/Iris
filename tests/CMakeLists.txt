@@ -6,21 +6,35 @@ FetchContent_Declare(
     )
 FetchContent_MakeAvailable(googletest)
 
+function (setup_link test_name)
+    target_link_libraries(${test_name} PRIVATE iris_testing gtest_main)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(${test_name} PRIVATE
+            -fprofile-arcs
+            -ftest-coverage
+        )
+        target_link_options(${test_name} PRIVATE
+            -fprofile-arcs
+            -ftest-coverage
+        )
+    endif()
+endfunction()
+
 add_executable(registry_tests iris/core/registry_tests.cpp)
-target_link_libraries(registry_tests PRIVATE iris gtest_main)
+setup_link(registry_tests)
 
 add_executable(mem_policy_tests iris/fs/contrib/mem_policy_tests.cpp)
-target_link_libraries(mem_policy_tests PRIVATE iris_testing gtest_main)
+setup_link(mem_policy_tests)
 
 add_executable(format_tests iris/logger/format_tests.cpp)
-target_link_libraries(format_tests PRIVATE iris_testing gtest_main)
+setup_link(format_tests)
 
 add_executable(array_tests iris/storage/array_tests.cpp)
-target_link_libraries(array_tests PRIVATE iris_testing gtest_main)
+setup_link(array_tests)
 
 add_executable(argscheme_tests iris/storage/argscheme_tests.cpp)
 target_include_directories(argscheme_tests PUBLIC .)
-target_link_libraries(argscheme_tests PRIVATE iris_testing gtest_main)
+setup_link(argscheme_tests)
 
 include(GoogleTest)
 gtest_discover_tests(registry_tests)

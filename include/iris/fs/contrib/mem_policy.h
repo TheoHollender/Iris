@@ -58,7 +58,7 @@ namespace iris::fs::memory {
             uint32_t offset;
         };
 
-        struct InMemoryBuffer {
+        struct InMemoryBuffer { // LCOV_EXCL_LINE
         private:
             std::vector<InMemoryPage> pages;
 

@@ -27,11 +27,6 @@
 #include "iris/fs/policy.h"
 #include "gtest/gtest.h"
 
-void verify_eof_fd (const char* location, int fd) {
-    uint8_t ptr[1];
-    EXPECT_EQ(0, iris::fs::rfsPolicy.read(fd, ptr, 1));
-}
-
 #define VERIFY_FD(fd, ...) ([&]() { \
     auto buffer = create_buffer(__VA_ARGS__); \
  \
