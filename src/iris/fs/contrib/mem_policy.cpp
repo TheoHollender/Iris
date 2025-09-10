@@ -197,5 +197,5 @@ uint32_t ReadFileSystemPolicy::read (uint32_t fd, uint8_t* ptr, uint32_t size) {
     return _internal::mem_storage.read(fd, ptr, size);
 }
 
-WriteFileSystemPolicy iris::fs::wfsPolicy;
-ReadFileSystemPolicy  iris::fs::rfsPolicy;
+WriteFileSystemPolicy iris::fs::wfsPolicy = WriteFileSystemPolicy();
+ReadFileSystemPolicy  iris::fs::rfsPolicy = ReadFileSystemPolicy();

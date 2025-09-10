@@ -38,11 +38,21 @@ namespace iris::core {
         std::map<KeyType, IntType> content;
 
         std::function<void(const KeyType&, IntType)> on_add;
+
+        // TODO make the registry thread-safe ?
     public:
         Registry () : on_add(&do_nothing<KeyType, IntType>) {};
         Registry (void (*on_add)(const KeyType&, IntType)) : on_add(on_add) {} // LCOV_EXCL_LINE
         Registry (std::function<void(const KeyType&, IntType)> on_add) : on_add(on_add) {}
 
+        std::pair<bool, IntType> getAndIsNew (const KeyType &target) {
+            auto it = content.find(target);
+            if (it != content.end()) return { false, (*it).second };
+        
+            IntType result = content[target] = content.size();
+            on_add(target, result);
+            return { true, result };
+        }
         IntType get (const KeyType &target) {
             auto it = content.find(target);
             if (it != content.end()) return (*it).second;

@@ -80,3 +80,17 @@ TEST(RegistryTests, OnAddCallbackTest) {
     EXPECT_EQ(calls[2], (std::make_pair<int, int>( 3, 0 )));
     EXPECT_EQ(calls[3], (std::make_pair<int, int>( 4, 1 )));
 }
+
+/** Test that the static macro works as expected */
+TEST(RegistryTests, SimpleTestAddOnNew) {
+    iris::core::Registry<int, int> my_registry;
+    
+    const auto id1 = my_registry.getAndIsNew(1);
+    EXPECT_EQ(id1, std::make_pair( true, 0 ));
+    const auto id2 = my_registry.getAndIsNew(2);
+    EXPECT_EQ(id2, std::make_pair( true, 1 ));
+    const auto id3 = my_registry.getAndIsNew(1);
+    EXPECT_EQ(id3, std::make_pair( false, 0 ));
+    const auto id4 = my_registry.getAndIsNew(2);
+    EXPECT_EQ(id4, std::make_pair( false, 1 ));
+}

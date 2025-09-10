@@ -26,6 +26,7 @@
 #include "utils/mkbuffer.h"
 #include "iris/fs/policy.h"
 #include "gtest/gtest.h"
+#include <iostream>
 
 #define VERIFY_FD(fd, ...) ([&]() { \
     auto buffer = create_buffer(__VA_ARGS__); \
@@ -34,9 +35,21 @@
     size_t bytes_read = iris::fs::rfsPolicy.read(fd, ptr, buffer.size()); \
  \
     EXPECT_EQ(bytes_read, buffer.size()); \
- \
-    for (size_t offset = 0; offset < buffer.size(); offset ++) \
+    bool valid = true; \
+    for (size_t offset = 0; offset < buffer.size(); offset ++) { \
         EXPECT_EQ(ptr[offset], buffer[offset]); \
+        if (ptr[offset] != buffer[offset]) valid = false; \
+    } \
+    if (!valid) { \
+      std::cout << "buffer: "; \
+      for (size_t offset = 0; offset < buffer.size(); offset ++) \
+         std::cout << ((unsigned int) buffer[offset]) << " "; \
+      std::cout << std::endl; \
+      std::cout << "ptr: "; \
+      for (size_t offset = 0; offset < buffer.size(); offset ++) \
+         std::cout << ((unsigned int) ptr[offset]) << " "; \
+      std::cout << std::endl; \
+    } \
 })();
 #define VERIFY_EOF_FD(fd) ([&]() { \
     uint8_t ptr[1]; \
