@@ -136,6 +136,6 @@ namespace iris::storage::type {
         return element;                                                  \
     })()
 
-    #define FIELD(TYPE, SUBTYPE, MEMBER) field( IRIS_MAKE_TYPE_UUID(SUBTYPE), offsetof(TYPE, MEMBER) )
-    #define PTR_FIELD(TYPE, MEMBER) field( POINTER_TYPE_ID, offsetof(TYPE, MEMBER) )
+    #define IRIS_FIELD(TYPE, SUBTYPE, MEMBER) field( IRIS_MAKE_TYPE_UUID(SUBTYPE), offsetof(TYPE, MEMBER) )
+    #define IRIS_PTR_FIELD(TYPE, MEMBER) field( POINTER_TYPE_ID, offsetof(TYPE, MEMBER) )
 }

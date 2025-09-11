@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(IRIS_TESTING OFF)
 option(IRIS_BENCHMARK OFF)
+option(IRIS_COVERAGE OFF)
 
 add_library(iris)
 target_sources(
@@ -13,6 +14,7 @@ target_sources(
         src/iris/core/init.cpp
         src/iris/logger/format.cpp
         src/iris/storage/argscheme.cpp
+        src/iris/storage/args.cpp
         src/iris/storage/types.cpp
         src/iris/storage/object.cpp)
 target_include_directories(iris PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -36,7 +38,7 @@ if (IRIS_TESTING)
         
     target_link_libraries(iris_testing PRIVATE iris)
 
-    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    if(IRIS_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         target_compile_options(iris_testing PRIVATE
             -fprofile-arcs
             -ftest-coverage
@@ -71,6 +73,6 @@ if (IRIS_TESTING)
     add_subdirectory(tests)
 endif()
 
-if (IRIS_BENCHMARK)
+if (IRIS_BENCHMARK AND NOT IRIS_COVERAGE)
     add_subdirectory(benchmarks)
 endif()

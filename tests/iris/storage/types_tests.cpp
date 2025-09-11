@@ -97,16 +97,16 @@ struct B {
 template<>
 std::vector<field> iris::storage::type::fields_of_type<A> () {
     return {
-        FIELD(A, bool, x),
-        PTR_FIELD(A, y)
+        IRIS_FIELD(A, bool, x),
+        IRIS_PTR_FIELD(A, y)
     };
 }
 template<>
 std::vector<field> iris::storage::type::fields_of_type<B> () {
     return {
-        FIELD(B, short, x),
-        FIELD(B, A, y),
-        FIELD(B, unsigned char, z)
+        IRIS_FIELD(B, short, x),
+        IRIS_FIELD(B, A, y),
+        IRIS_FIELD(B, unsigned char, z)
     };
 }
 

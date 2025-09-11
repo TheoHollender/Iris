@@ -28,6 +28,7 @@
 
 #include <array>
 #include <mutex>
+#include <cstring>
 #include <type_traits>
 
 namespace iris::storage::array {

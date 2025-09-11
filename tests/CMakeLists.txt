@@ -8,7 +8,7 @@ FetchContent_MakeAvailable(googletest)
 
 function (setup_link test_name)
     target_link_libraries(${test_name} PRIVATE iris iris_testing gtest_main)
-    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    if(IRIS_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         target_compile_options(${test_name} PRIVATE
             -fprofile-arcs
             -ftest-coverage
@@ -44,6 +44,10 @@ add_executable(object_tests iris/storage/object_tests.cpp)
 target_include_directories(object_tests PUBLIC .)
 setup_link(object_tests)
 
+add_executable(args_tests iris/storage/args_tests.cpp)
+target_include_directories(args_tests PUBLIC .)
+setup_link(args_tests)
+
 include(GoogleTest)
 gtest_discover_tests(registry_tests)
 gtest_discover_tests(mem_policy_tests)
@@ -52,3 +56,4 @@ gtest_discover_tests(array_tests)
 gtest_discover_tests(argscheme_tests)
 gtest_discover_tests(types_tests)
 gtest_discover_tests(object_tests)
+gtest_discover_tests(args_tests)
