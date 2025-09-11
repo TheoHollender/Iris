@@ -13,7 +13,8 @@ target_sources(
         src/iris/core/init.cpp
         src/iris/logger/format.cpp
         src/iris/storage/argscheme.cpp
-        src/iris/storage/types.cpp)
+        src/iris/storage/types.cpp
+        src/iris/storage/object.cpp)
 target_include_directories(iris PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 enable_testing()
@@ -28,7 +29,7 @@ if (IRIS_TESTING)
     add_library(iris_testing)
     target_include_directories(iris_testing PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
     target_sources(
-        iris_testing PUBLIC
+        iris_testing PRIVATE
             src/iris/fs/contrib/mem_policy.cpp)
     target_compile_definitions(
         iris_testing PUBLIC IRIS_FS_MEM_TESTING)

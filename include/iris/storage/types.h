@@ -23,6 +23,7 @@
  * SOFTWARE.
  */
 
+#pragma once
 #include <mutex>
 #include <limits>
 #include <cstdint>
