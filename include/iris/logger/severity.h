@@ -23,39 +23,31 @@
  * SOFTWARE.
  */
 
-#include "iris/storage/object.h"
+#pragma once
+#include <cstdint>
 
-using namespace iris::storage::object;
+enum class LogLevel : uint8_t {
+    DEBUG,
+    INFO,
+    WARN,
+    ERROR,
+    FATAL
+};
 
-void ObjectGlobalStorage::init () {
-    if (storage_pendint_init) {
-        std::lock_guard<std::mutex> lock(init_mutex);
-        if (!storage_pendint_init) return ;
+#if defined(IRIS_LOGLEVEL_DEBUG)
+constexpr LogLevel IRIS_LOG_LEVEL = LogLevel::DEBUG;
+#elif defined(IRIS_LOGLEVEL_INFO)
+constexpr LogLevel IRIS_LOG_LEVEL = LogLevel::INFO;
+#elif defined(IRIS_LOGLEVEL_WARN)
+constexpr LogLevel IRIS_LOG_LEVEL = LogLevel::WARN;
+#elif defined(IRIS_LOGLEVEL_ERROR)
+constexpr LogLevel IRIS_LOG_LEVEL = LogLevel::ERROR;
+#elif defined(IRIS_LOGLEVEL_FATAL)
+constexpr LogLevel IRIS_LOG_LEVEL = LogLevel::FATAL;
+#else
+constexpr LogLevel IRIS_LOG_LEVEL = LogLevel::ERROR;
+#endif
 
-        storage_pendint_init = false;
-
-        fd = iris::fs::wfsPolicy.open(OBJECT_STORAGE_LOCATION);
-    }
+constexpr bool should_log (LogLevel level) {
+    return level >= IRIS_LOG_LEVEL;
 }
-
-#define MK_PRIMITIVE(TYPE) \
-    template<> \
-    void iris::storage::object::prepare_object (const TYPE& t) {}
-
-MK_PRIMITIVE(char)
-MK_PRIMITIVE(short)
-MK_PRIMITIVE(int)
-MK_PRIMITIVE(long)
-MK_PRIMITIVE(long long)
-
-MK_PRIMITIVE(unsigned char)
-MK_PRIMITIVE(unsigned short)
-MK_PRIMITIVE(unsigned int)
-MK_PRIMITIVE(unsigned long)
-MK_PRIMITIVE(unsigned long long)
-
-MK_PRIMITIVE(float)
-MK_PRIMITIVE(double)
-MK_PRIMITIVE(bool)
-
-ObjectGlobalStorage iris::storage::object::storageContainer = ObjectGlobalStorage();

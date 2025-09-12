@@ -47,9 +47,9 @@ namespace iris::logger {
      *   to predict correctly where the information is stored and this should
      *   be close to O(1).
      */
-    #define IRIS_LOGGER_MAKE_STATIC_FORMAT(format) ([]() {                   \
-        static uint64_t element(iris::logger::format_registry.get(format));  \
-        return element.content;                                              \
+    #define IRIS_LOGGER_MAKE_STATIC_FORMAT(format) ([]() {                       \
+        static auto element(iris::logger::format_registry.get(format)); \
+        return element;                                                          \
     })()
 
     /**

@@ -30,7 +30,7 @@
  *   In particular all the Iris macros will be defined to empty,
  *   Leaving no time cost to the program running.
  * 
- * IRIS_DEBUG - The software provided will start logging itself.
+ * IRIS_INTERNAL_DEBUG - The software provided will start logging itself.
  *   This is mainly a way for project developpers to understand what
  *   Is going wrong when working with core aspects of the program.
  * 
@@ -40,11 +40,11 @@
  * 
  * Severity Levels for Logs.
  * 
- * IRIS_FATAL - Display logs for the FATAL severity and above.
- * IRIS_ERROR - Display logs for the ERROR severity and above.
- * IRIS_WARN  - Display logs for the WARN  severity and above.
- * IRIS_INFO  - Display logs for the INFO  severity and above.
- * IRIS_DEBUG - Display logs for the DEBUG severity and above.
+ * IRIS_LOGLEVEL_FATAL - Display logs for the FATAL severity and above.
+ * IRIS_LOGLEVEL_ERROR - Display logs for the ERROR severity and above.
+ * IRIS_LOGLEVEL_WARN  - Display logs for the WARN  severity and above.
+ * IRIS_LOGLEVEL_INFO  - Display logs for the INFO  severity and above.
+ * IRIS_LOGLEVEL_DEBUG - Display logs for the DEBUG severity and above.
  * 
  * In case none of the severity is enabled, IRIS_ERROR will be
  * automatically enabled.
@@ -52,6 +52,6 @@
 
 #pragma once
 #ifdef IRIS_DISABLE
-#undef IRIS_DEBUG
+#undef IRIS_INTERNAL_DEBUG
 #undef IRIS_CLI
 #endif

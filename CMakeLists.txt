@@ -13,6 +13,7 @@ target_sources(
     iris PRIVATE
         src/iris/core/init.cpp
         src/iris/logger/format.cpp
+        src/iris/logger/logger.cpp
         src/iris/storage/argscheme.cpp
         src/iris/storage/args.cpp
         src/iris/storage/types.cpp

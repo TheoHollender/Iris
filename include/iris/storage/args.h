@@ -55,8 +55,10 @@ namespace iris::storage::args {
     };
     #define IRIS_ARGUMENT(label, value) iris::storage::args::argument(label, value)
 
+    using Arguments = std::pair<ArgSchemeIntType, ArgValuesIntType>;
+
     template<typename FuncLabel, typename FuncValue, typename... Args>
-    constexpr std::pair<ArgSchemeIntType, ArgValuesIntType> generate_args (
+    constexpr Arguments generate_args (
         FuncLabel funcLabels, FuncValue funcValues, Args ...args) {
         return std::make_pair<ArgSchemeIntType, ArgValuesIntType>(
             funcLabels(args.label...),

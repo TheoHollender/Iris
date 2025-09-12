@@ -37,6 +37,8 @@ void TypeStorage::init() {
     if (storage_pendint_init) {
         std::lock_guard<std::mutex> lock(init_mutex);
         if (!storage_pendint_init) return ;
+        
+        storage_pendint_init = false;
 
         fd = iris::fs::wfsPolicy.open(TYPE_STORAGE_LOCATION);
     }

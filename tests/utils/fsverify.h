@@ -46,7 +46,7 @@
          std::cout << ((unsigned int) buffer[offset]) << " "; \
       std::cout << std::endl; \
       std::cout << "ptr: "; \
-      for (size_t offset = 0; offset < buffer.size(); offset ++) \
+      for (size_t offset = 0; offset < bytes_read; offset ++) \
          std::cout << ((unsigned int) ptr[offset]) << " "; \
       std::cout << std::endl; \
     } \

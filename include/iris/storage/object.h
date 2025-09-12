@@ -67,7 +67,7 @@ namespace iris::storage::object {
         ObjectIntType registerObject (const T &object) {
             init();
             prepare_object<T>(object);
-
+            
             std::lock_guard<std::mutex> lock(write_mutex);
 
             TypeIntType type = IRIS_MAKE_TYPE_UUID(T);
