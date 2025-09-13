@@ -57,7 +57,14 @@ TEST(LoggerTests, TestNoArgumentsLogger) {
     int fdLogger = iris::fs::rfsPolicy.open(LOGGER_LOGS_LOCATION);
     VERIFY_FD(
         fdLogger,
-        static_cast<uint32_t>(0),
+        static_cast<uint32_t>(0));
+    size_t curr_time;
+    EXPECT_EQ(
+        iris::fs::rfsPolicy.read(fdLogger, (uint8_t*) &curr_time, sizeof(size_t)),
+        sizeof(size_t)
+    );
+    VERIFY_FD(
+        fdLogger,
         static_cast<LogLevel>(LogLevel::FATAL),
         static_cast<FormatIntType>(0),
         static_cast<ArgSchemeIntType>(std::numeric_limits<ArgSchemeIntType>::max()),
@@ -130,15 +137,25 @@ TEST(LoggerTests, TestArgumentsLogger) {
     VERIFY_EOF_FD(fdLoggerNames);
     
     int fdLogger = iris::fs::rfsPolicy.open(LOGGER_LOGS_LOCATION);
+    size_t lst_time = 0;
     for (size_t off = 0; off < 8; off ++) {
         VERIFY_FD(
             fdLogger,
-            static_cast<uint32_t>(0),
+            static_cast<uint32_t>(0)
+        );
+        size_t curr_time;
+        EXPECT_EQ(
+            iris::fs::rfsPolicy.read(fdLogger, (uint8_t*) &curr_time, sizeof(size_t)),
+            sizeof(size_t)
+        );
+        EXPECT_TRUE(curr_time >= lst_time);
+        lst_time = curr_time;
+        VERIFY_FD(
+            fdLogger,
             static_cast<LogLevel>(LogLevel::FATAL),
             static_cast<FormatIntType>(0),
             static_cast<ArgSchemeIntType>(0),
-            static_cast<ArgValuesIntType>(off)
-        );
+            static_cast<ArgValuesIntType>(off) );
     }
     VERIFY_EOF_FD(fdLogger);
 

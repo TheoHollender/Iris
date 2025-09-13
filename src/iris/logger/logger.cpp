@@ -24,6 +24,7 @@
  */
 
 #include "iris/logger/logger.h"
+#include <chrono>
 
 using namespace iris::logger;
 using namespace iris::storage::args;
@@ -87,6 +88,7 @@ void Logger::log (LogLevel level, FormatIntType fmt) {
         )
     );
 }
+#include <ctime>
 void Logger::log (
     LogLevel level,
     FormatIntType fmt,
@@ -96,14 +98,20 @@ void Logger::log (
 
     constexpr size_t bufferSize = 
         sizeof(uint32_t)
+      + sizeof(size_t)
       + sizeof(LogLevel)
       + sizeof(FormatIntType)
       + sizeof(ArgSchemeIntType)
       + sizeof(ArgValuesIntType);
     uint8_t buffer[bufferSize];
 
+    // TODO make a fast time API using clock_gettime(CLOCK_MONOTONIC)
+    size_t time_since_epoch = std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::steady_clock::now().time_since_epoch()).count();
+
     uint8_t* current = buffer;
     *((uint32_t*) (current)) = logger_uuid; current += sizeof(uint32_t);
+    *((size_t*) (current)) = time_since_epoch; current += sizeof(size_t);
     *((LogLevel*) (current)) = level; current += sizeof(LogLevel);
     *((FormatIntType*) (current)) = fmt; current += sizeof(FormatIntType);
     *((ArgSchemeIntType*) (current)) = args.first; current += sizeof(ArgSchemeIntType);
