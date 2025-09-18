@@ -45,7 +45,7 @@ TEST(FormatRegistryTests, TestWrittenData) {
     uint64_t f4 = IRIS_LOGGER_MAKE_FORMAT("Hi: '%2'");
     
     EXPECT_STREQ(FORMAT_STORAGE_LOCATION, "logs/formats");
-    int fd = iris::fs::rfsPolicy.open("logs/formats");
+    int fd = iris::fs::rfsPolicy.open(0, "logs/formats");
 
     uint8_t ptr[
         sizeof(FormatIntType) + sizeof(size_t) + 11

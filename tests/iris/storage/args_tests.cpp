@@ -40,12 +40,12 @@ TEST(ArgsStorageTests, TestSDArguments) {
         EXPECT_EQ(res.second, off);
     }
 
-    int typesFd = iris::fs::rfsPolicy.open(TYPE_STORAGE_LOCATION);
+    int typesFd = iris::fs::rfsPolicy.open(0, TYPE_STORAGE_LOCATION);
     VERIFY_FD( typesFd, static_cast<TypeIntType>(0), prim_mark, Primitive::FLOAT);
     VERIFY_FD( typesFd, static_cast<TypeIntType>(1), prim_mark, Primitive::INT);
     VERIFY_EOF_FD( typesFd );
 
-    int objectsFd = iris::fs::rfsPolicy.open(OBJECT_STORAGE_LOCATION);
+    int objectsFd = iris::fs::rfsPolicy.open(0, OBJECT_STORAGE_LOCATION);
     for (size_t off = 0; off < 10; off ++) {
         VERIFY_FD(
             objectsFd,
@@ -64,14 +64,14 @@ TEST(ArgsStorageTests, TestSDArguments) {
     }
     VERIFY_EOF_FD(objectsFd);
 
-    int argvaluesFd = iris::fs::rfsPolicy.open(ARG_VALUES_LOCATION);
+    int argvaluesFd = iris::fs::rfsPolicy.open(0, ARG_VALUES_LOCATION);
     for (size_t off = 0; off < 10; off ++) {
         VERIFY_FD(argvaluesFd, 2ULL, static_cast<ObjectIntType>(2 * off + 1), static_cast<ObjectIntType>(2 * off));
     }
     VERIFY_EOF_FD(argvaluesFd);
     
-    int nameFd   = iris::fs::rfsPolicy.open(ARG_NAMES_LOCATION);
-    int schemeFd = iris::fs::rfsPolicy.open(ARG_SCHEME_LOCATION);
+    int nameFd   = iris::fs::rfsPolicy.open(0, ARG_NAMES_LOCATION);
+    int schemeFd = iris::fs::rfsPolicy.open(0, ARG_SCHEME_LOCATION);
 
     VERIFY_FD(nameFd, static_cast<ArgNameIntType>(0), 3ULL, 'd', 'e', 'f');
     VERIFY_FD(nameFd, static_cast<ArgNameIntType>(1), 3ULL, 'a', 'b', 'c');

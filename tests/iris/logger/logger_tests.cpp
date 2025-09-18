@@ -36,7 +36,7 @@ using namespace iris::storage::type;
 TEST(LoggerTests, TestNoArgumentsLogger) {
     IRIS_FATAL(rootLogger, "A fatal error occured.");
 
-    int fdFormat = iris::fs::rfsPolicy.open(FORMAT_STORAGE_LOCATION);
+    int fdFormat = iris::fs::rfsPolicy.open(0, FORMAT_STORAGE_LOCATION);
     VERIFY_FD(
         fdFormat,
         static_cast<FormatIntType>(0),
@@ -46,7 +46,7 @@ TEST(LoggerTests, TestNoArgumentsLogger) {
     );
     VERIFY_EOF_FD(fdFormat);
 
-    int fdLoggerNames = iris::fs::rfsPolicy.open(LOGGER_NAMES_LOCATION);
+    int fdLoggerNames = iris::fs::rfsPolicy.open(0, LOGGER_NAMES_LOCATION);
     VERIFY_FD(
         fdLoggerNames,
         static_cast<uint32_t>(0),
@@ -54,7 +54,7 @@ TEST(LoggerTests, TestNoArgumentsLogger) {
     );
     VERIFY_EOF_FD(fdLoggerNames);
     
-    int fdLogger = iris::fs::rfsPolicy.open(LOGGER_LOGS_LOCATION);
+    int fdLogger = iris::fs::rfsPolicy.open(0, LOGGER_LOGS_LOCATION);
     VERIFY_FD(
         fdLogger,
         static_cast<uint32_t>(0));
@@ -72,39 +72,39 @@ TEST(LoggerTests, TestNoArgumentsLogger) {
     );
     VERIFY_EOF_FD(fdLogger);
 
-    int fdArgValues  = iris::fs::rfsPolicy.open(ARG_VALUES_LOCATION);
-    int fdArgSchemes = iris::fs::rfsPolicy.open(ARG_SCHEME_LOCATION);
-    int fdArgNames   = iris::fs::rfsPolicy.open(ARG_NAMES_LOCATION);
+    int fdArgValues  = iris::fs::rfsPolicy.open(0, ARG_VALUES_LOCATION);
+    int fdArgSchemes = iris::fs::rfsPolicy.open(0, ARG_SCHEME_LOCATION);
+    int fdArgNames   = iris::fs::rfsPolicy.open(0, ARG_NAMES_LOCATION);
     VERIFY_EOF_FD(fdArgValues);
     VERIFY_EOF_FD(fdArgNames);
     VERIFY_EOF_FD(fdArgSchemes);
     
-    int fdTypes = iris::fs::rfsPolicy.open(TYPE_STORAGE_LOCATION);
-    int fdObjects = iris::fs::rfsPolicy.open(OBJECT_STORAGE_LOCATION);
+    int fdTypes = iris::fs::rfsPolicy.open(0, TYPE_STORAGE_LOCATION);
+    int fdObjects = iris::fs::rfsPolicy.open(0, OBJECT_STORAGE_LOCATION);
     VERIFY_EOF_FD(fdTypes);
     VERIFY_EOF_FD(fdObjects);
 }
 TEST(LoggerTests, TestDisabledLogger) {
     IRIS_DEBUG(rootLogger, "Some debug information.");
 
-    int fdFormat = iris::fs::rfsPolicy.open(FORMAT_STORAGE_LOCATION);
+    int fdFormat = iris::fs::rfsPolicy.open(0, FORMAT_STORAGE_LOCATION);
     VERIFY_EOF_FD(fdFormat);
 
-    int fdLoggerNames = iris::fs::rfsPolicy.open(LOGGER_NAMES_LOCATION);
+    int fdLoggerNames = iris::fs::rfsPolicy.open(0, LOGGER_NAMES_LOCATION);
     VERIFY_EOF_FD(fdLoggerNames);
     
-    int fdLogger = iris::fs::rfsPolicy.open(LOGGER_LOGS_LOCATION);
+    int fdLogger = iris::fs::rfsPolicy.open(0, LOGGER_LOGS_LOCATION);
     VERIFY_EOF_FD(fdLogger);
 
-    int fdArgValues  = iris::fs::rfsPolicy.open(ARG_VALUES_LOCATION);
-    int fdArgSchemes = iris::fs::rfsPolicy.open(ARG_SCHEME_LOCATION);
-    int fdArgNames   = iris::fs::rfsPolicy.open(ARG_NAMES_LOCATION);
+    int fdArgValues  = iris::fs::rfsPolicy.open(0, ARG_VALUES_LOCATION);
+    int fdArgSchemes = iris::fs::rfsPolicy.open(0, ARG_SCHEME_LOCATION);
+    int fdArgNames   = iris::fs::rfsPolicy.open(0, ARG_NAMES_LOCATION);
     VERIFY_EOF_FD(fdArgValues);
     VERIFY_EOF_FD(fdArgNames);
     VERIFY_EOF_FD(fdArgSchemes);
     
-    int fdTypes = iris::fs::rfsPolicy.open(TYPE_STORAGE_LOCATION);
-    int fdObjects = iris::fs::rfsPolicy.open(OBJECT_STORAGE_LOCATION);
+    int fdTypes = iris::fs::rfsPolicy.open(0, TYPE_STORAGE_LOCATION);
+    int fdObjects = iris::fs::rfsPolicy.open(0, OBJECT_STORAGE_LOCATION);
     VERIFY_EOF_FD(fdTypes);
     VERIFY_EOF_FD(fdObjects);
 }
@@ -118,7 +118,7 @@ TEST(LoggerTests, TestArgumentsLogger) {
         );
     }
 
-    int fdFormat = iris::fs::rfsPolicy.open(FORMAT_STORAGE_LOCATION);
+    int fdFormat = iris::fs::rfsPolicy.open(0, FORMAT_STORAGE_LOCATION);
     VERIFY_FD(
         fdFormat,
         static_cast<FormatIntType>(0),
@@ -128,7 +128,7 @@ TEST(LoggerTests, TestArgumentsLogger) {
     );
     VERIFY_EOF_FD(fdFormat);
 
-    int fdLoggerNames = iris::fs::rfsPolicy.open(LOGGER_NAMES_LOCATION);
+    int fdLoggerNames = iris::fs::rfsPolicy.open(0, LOGGER_NAMES_LOCATION);
     VERIFY_FD(
         fdLoggerNames,
         static_cast<uint32_t>(0),
@@ -136,7 +136,7 @@ TEST(LoggerTests, TestArgumentsLogger) {
     );
     VERIFY_EOF_FD(fdLoggerNames);
     
-    int fdLogger = iris::fs::rfsPolicy.open(LOGGER_LOGS_LOCATION);
+    int fdLogger = iris::fs::rfsPolicy.open(0, LOGGER_LOGS_LOCATION);
     size_t lst_time = 0;
     for (size_t off = 0; off < 8; off ++) {
         VERIFY_FD(
@@ -159,9 +159,9 @@ TEST(LoggerTests, TestArgumentsLogger) {
     }
     VERIFY_EOF_FD(fdLogger);
 
-    int fdArgValues  = iris::fs::rfsPolicy.open(ARG_VALUES_LOCATION);
-    int fdArgSchemes = iris::fs::rfsPolicy.open(ARG_SCHEME_LOCATION);
-    int fdArgNames   = iris::fs::rfsPolicy.open(ARG_NAMES_LOCATION);
+    int fdArgValues  = iris::fs::rfsPolicy.open(0, ARG_VALUES_LOCATION);
+    int fdArgSchemes = iris::fs::rfsPolicy.open(0, ARG_SCHEME_LOCATION);
+    int fdArgNames   = iris::fs::rfsPolicy.open(0, ARG_NAMES_LOCATION);
     for (size_t off = 0; off < 8; off ++) {
         VERIFY_FD(
             fdArgValues,
@@ -174,8 +174,8 @@ TEST(LoggerTests, TestArgumentsLogger) {
     VERIFY_FD( fdArgSchemes, static_cast<size_t>(1), static_cast<ArgNameIntType>(0) );
     VERIFY_EOF_FD(fdArgSchemes);
     
-    int fdTypes = iris::fs::rfsPolicy.open(TYPE_STORAGE_LOCATION);
-    int fdObjects = iris::fs::rfsPolicy.open(OBJECT_STORAGE_LOCATION);
+    int fdTypes = iris::fs::rfsPolicy.open(0, TYPE_STORAGE_LOCATION);
+    int fdObjects = iris::fs::rfsPolicy.open(0, OBJECT_STORAGE_LOCATION);
     VERIFY_FD( fdTypes, static_cast<TypeIntType>(0), prim_mark, Primitive::ULONG);
     VERIFY_EOF_FD(fdTypes);
     for (size_t off = 0; off < 8; off ++) {

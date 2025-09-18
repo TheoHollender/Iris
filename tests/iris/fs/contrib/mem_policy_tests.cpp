@@ -58,9 +58,9 @@ TEST(InMemoryPolicyTests, SmallTests) {
     iris::fs::wfsPolicy.write(fd_a, data, 2);
     iris::fs::wfsPolicy.write(fd_b, data, 4);
 
-    EXPECT_EQ( iris::fs::rfsPolicy.open("a.txt"), 0 );
-    EXPECT_EQ( iris::fs::rfsPolicy.open("a.txt"), 1 );
-    EXPECT_EQ( iris::fs::rfsPolicy.open("b.txt"), 2 );
+    EXPECT_EQ( iris::fs::rfsPolicy.open(0, "a.txt"), 0 );
+    EXPECT_EQ( iris::fs::rfsPolicy.open(0, "a.txt"), 1 );
+    EXPECT_EQ( iris::fs::rfsPolicy.open(0, "b.txt"), 2 );
 
     int rfa = 0; int rfb = 2;
     char buffer[5];
@@ -105,7 +105,7 @@ TEST(InMemoryPolicyTests, BigTestsInternal) {
     }
 }
 TEST(InMemoryPolicyTests, BigTests) {
-    int fd = iris::fs::rfsPolicy.open("a.txt");
+    int fd = iris::fs::rfsPolicy.open(0, "a.txt");
 
     uint8_t to_write[253];
     for (int i = 0; i < 253; i ++) to_write[i] = i;
@@ -113,7 +113,7 @@ TEST(InMemoryPolicyTests, BigTests) {
     for (int i = 0; i < 20; i ++)
         iris::fs::wfsPolicy.write(fd, to_write, 253);
     
-    fd = iris::fs::rfsPolicy.open("a.txt");
+    fd = iris::fs::rfsPolicy.open(0, "a.txt");
     int off = 0;
     uint8_t read[194];
     for (int i = 0; i < 20; i ++) {

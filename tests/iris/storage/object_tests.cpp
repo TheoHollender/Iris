@@ -48,7 +48,7 @@ TEST(ObjectStorageTests, StorePrimitiveTests) {
     EXPECT_EQ( 11, IRIS_STORE_OBJECT(static_cast<double>(65.265546452236)) );
     EXPECT_EQ( 12, IRIS_STORE_OBJECT(static_cast<bool>(true)) );
 
-    int fd = iris::fs::rfsPolicy.open(OBJECT_STORAGE_LOCATION);
+    int fd = iris::fs::rfsPolicy.open(0, OBJECT_STORAGE_LOCATION);
     EXPECT_EQ(OBJECT_STORAGE_LOCATION, "objects/instances");
 
     VERIFY_FD(
@@ -151,7 +151,7 @@ TEST(ObjectStorageTests, StoreStructAndPtr) {
     B obj = { 100, { true, &dbl }, 100U };
     EXPECT_EQ( 1, IRIS_STORE_OBJECT(obj) );
 
-    int fd = iris::fs::rfsPolicy.open(TYPE_STORAGE_LOCATION);
+    int fd = iris::fs::rfsPolicy.open(0, TYPE_STORAGE_LOCATION);
     EXPECT_EQ(TYPE_STORAGE_LOCATION, "objects/types");
     
     VERIFY_FD( fd, static_cast<TypeIntType>(0), prim_mark, Primitive::DOUBLE);
@@ -177,7 +177,7 @@ TEST(ObjectStorageTests, StoreStructAndPtr) {
     );
     VERIFY_EOF_FD(fd);
 
-    fd = iris::fs::rfsPolicy.open(OBJECT_STORAGE_LOCATION);
+    fd = iris::fs::rfsPolicy.open(0, OBJECT_STORAGE_LOCATION);
     
     VERIFY_FD(
         fd,

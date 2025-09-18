@@ -22,9 +22,13 @@ void WriteFileSystemPolicy::flush (uint32_t fd) {
     benchmark::DoNotOptimize(fd);
 }
 void WriteFileSystemPolicy::flush_all () {}
+
+uint32_t ReadFileSystemPolicy::num_volumes () {
+    return 0;
+}
 // LCOV_EXCL_STOP
 
-uint32_t ReadFileSystemPolicy::open (std::string path) {
+uint32_t ReadFileSystemPolicy::open (uint32_t vol_id, std::string path) {
     benchmark::DoNotOptimize(path);
     return 0;
 }

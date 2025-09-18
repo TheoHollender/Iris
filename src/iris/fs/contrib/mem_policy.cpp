@@ -184,9 +184,12 @@ void WriteFileSystemPolicy::flush (uint32_t fd) {
 void WriteFileSystemPolicy::flush_all () {
     IRIS_FS_MEM_WARNING();
 }
-// LCOV_EXCL_STOP
 
-uint32_t ReadFileSystemPolicy::open (std::string path) {
+uint32_t ReadFileSystemPolicy::num_volumes () {
+    return 1;
+}
+// LCOV_EXCL_STOP
+uint32_t ReadFileSystemPolicy::open (uint32_t vol_id, std::string path) {
     IRIS_FS_MEM_WARNING();
 
     return _internal::mem_storage.open_read(path);

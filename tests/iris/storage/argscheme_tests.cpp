@@ -35,8 +35,8 @@ TEST(ArgSchemeStorageTests, TestStorageSingleElement) {
     EXPECT_EQ( IRIS_MAKE_ARGSCHEME("name"), 0 );
     EXPECT_EQ( IRIS_MAKE_ARGSCHEME("name"), 1 );
 
-    int fd_name = iris::fs::rfsPolicy.open(ARG_NAMES_LOCATION);
-    int fd_schm = iris::fs::rfsPolicy.open(ARG_SCHEME_LOCATION);
+    int fd_name = iris::fs::rfsPolicy.open(0, ARG_NAMES_LOCATION);
+    int fd_schm = iris::fs::rfsPolicy.open(0, ARG_SCHEME_LOCATION);
 
     VERIFY_FD( fd_name, static_cast<ArgNameIntType>(0), 4ULL, 'n', 'a', 'm', 'e' );
     VERIFY_EOF_FD( fd_name );
@@ -54,8 +54,8 @@ TEST(ArgSchemeStorageTests, TestStorageMultipleElement) {
     uint8_t label2 = IRIS_MAKE_ARGNAME("label2");
     uint8_t label3 = IRIS_MAKE_ARGNAME("label3");
     
-    int fd_name = iris::fs::rfsPolicy.open(ARG_NAMES_LOCATION);
-    int fd_schm = iris::fs::rfsPolicy.open(ARG_SCHEME_LOCATION);
+    int fd_name = iris::fs::rfsPolicy.open(0, ARG_NAMES_LOCATION);
+    int fd_schm = iris::fs::rfsPolicy.open(0, ARG_SCHEME_LOCATION);
     
     VERIFY_FD(
         fd_schm, 3ULL,

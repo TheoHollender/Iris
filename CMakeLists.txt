@@ -8,6 +8,24 @@ option(IRIS_TESTING OFF)
 option(IRIS_BENCHMARK OFF)
 option(IRIS_COVERAGE OFF)
 
+##############################################################################
+################################ DEPENDENCIES ################################
+##############################################################################
+
+include(FetchContent)
+FetchContent_Declare(
+    cli11_proj
+    QUIET
+    GIT_REPOSITORY https://github.com/CLIUtils/CLI11.git
+    GIT_TAG v2.5.0
+)
+
+FetchContent_MakeAvailable(cli11_proj)
+
+##############################################################################
+#################################### IRIS ####################################
+##############################################################################
+
 add_library(iris)
 target_sources(
     iris PRIVATE
@@ -19,6 +37,10 @@ target_sources(
         src/iris/storage/types.cpp
         src/iris/storage/object.cpp)
 target_include_directories(iris PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+###############################################################################
+################################### TESTING ###################################
+###############################################################################
 
 enable_testing()
 

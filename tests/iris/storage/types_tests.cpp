@@ -62,7 +62,7 @@ TEST(TypeStorageTests, RegisterPrimitiveTests) {
     TEST_PRIMITIVE(double);
     TEST_PRIMITIVE(bool);
 
-    int fd = iris::fs::rfsPolicy.open(TYPE_STORAGE_LOCATION);
+    int fd = iris::fs::rfsPolicy.open(0, TYPE_STORAGE_LOCATION);
     EXPECT_EQ(TYPE_STORAGE_LOCATION, "objects/types");
 
     VERIFY_FD(fd, static_cast<TypeIntType>(0), prim_mark, Primitive::INT);
@@ -120,7 +120,7 @@ TEST(TypeStorageTests, RegisterSampleStructsIds) {
 TEST(TypeStorageTests, RegisterSampleStructs) {
     EXPECT_EQ(IRIS_MAKE_TYPE_UUID(B), 0);
 
-    int fd = iris::fs::rfsPolicy.open(TYPE_STORAGE_LOCATION);
+    int fd = iris::fs::rfsPolicy.open(0, TYPE_STORAGE_LOCATION);
     EXPECT_EQ(TYPE_STORAGE_LOCATION, "objects/types");
     
     VERIFY_FD( fd, static_cast<TypeIntType>(1), prim_mark, Primitive::SHORT);

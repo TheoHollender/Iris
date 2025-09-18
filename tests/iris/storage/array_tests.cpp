@@ -35,7 +35,7 @@ TEST(ArrayStorageTests, TestStorageSingleElement) {
     EXPECT_EQ(storage.store(257ULL), 0);
     EXPECT_EQ(storage.store(1ULL), 1);
 
-    int fd = iris::fs::rfsPolicy.open("loc");
+    int fd = iris::fs::rfsPolicy.open(0, "loc");
     uint8_t ptr[33];
     EXPECT_EQ(iris::fs::rfsPolicy.read(fd, ptr, 33), 32);
 
@@ -56,7 +56,7 @@ TEST(ArrayStorageTests, TestStorageManyElements) {
     EXPECT_EQ( storage.store(word, shrt, norm, llng), 0 );
     EXPECT_EQ( storage.store(shrt, word, llng, norm), 1 );
 
-    int fd = iris::fs::rfsPolicy.open("loc");
+    int fd = iris::fs::rfsPolicy.open(0, "loc");
     uint8_t ptr[81];
     EXPECT_EQ(iris::fs::rfsPolicy.read(fd, ptr, 81), 80);
 

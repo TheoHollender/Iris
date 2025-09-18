@@ -51,7 +51,8 @@ namespace iris::fs {
 
     struct ReadFileSystemPolicy {
     public:
-        uint32_t open (std::string path);
+        uint32_t num_volumes ();
+        uint32_t open (uint32_t vol_id, std::string path);
         uint32_t read (uint32_t fd, uint8_t* ptr, uint32_t size);
     };
 
